@@ -6,7 +6,7 @@ const getAllCategories = (req, res) => {
 };
 
 const findByName = (req, res) => {
-	if (!helpers.validStringNameProduct(req.params.name))
+	if (!req.params.name)
 		return res
 			.status(400)
 			.json({ error: true, message: "is missing the name" });
@@ -32,10 +32,15 @@ const findById = (req, res) => {
 };
 
 const saveNewCategory = (req, res) => {
-	if (req.body.nombre_corto.length > 5)
+	if (!helpers.validLengthNameSku(req.body.nombre_corto))
 		return res
 			.status(400)
 			.json({ error: true, message: "too long nombre_corto must be 5" });
+
+	if (!helpers.checkShortNameSku("category", req.body.nombre_corto))
+		return res
+			.status(400)
+			.json({ error: true, message: "there is a category with the same name" });
 
 	return res.status(201).json(categoryService.saveNewCategory(req.body));
 };
@@ -56,10 +61,15 @@ const updateCategory = (req, res) => {
 	if (!req.params.id)
 		return res.status(400).json({ error: true, message: "id is missing" });
 
-	if (!helpers.validStringNameProduct(req.body.nombre_corto))
+	if (!helpers.validLengthNameSku(req.body.nombre_corto))
 		return res
 			.status(400)
 			.json({ error: true, message: "too long nombre_corto must be 5" });
+
+	if (!helpers.checkShortNameSku("category", req.body.nombre_corto))
+		return res
+			.status(400)
+			.json({ error: true, message: "there is a category with the same name" });
 
 	const rs = categoryService.updateCategory(req.body, req.params.id);
 
