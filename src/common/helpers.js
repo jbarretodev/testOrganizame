@@ -1,8 +1,8 @@
 const categories = require("../database/dataSources/categories");
 const products = require("../database/dataSources/products");
 
-const validLengthNameSku = (name) => {
-	return name.length <= 5;
+const validLengthNameSku = (value) => {
+	return value.length <= 5;
 };
 
 const checkShortNameSku = (source, value) => {
