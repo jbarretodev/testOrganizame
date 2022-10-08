@@ -90,6 +90,7 @@ const updateProduct = (req, res) => {
 const exportCsv = (req, res) => {
 	const rs = productService.exportCsv();
 	fs.writeFileSync("export.csv", toCsv(rs));
+	res.download("export.csv");
 };
 
 const toCsv = (data) => {
