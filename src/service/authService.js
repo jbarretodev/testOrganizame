@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-const dateUser = require("../database/datasourse");
+const dateUser = require("../database/dataSources/users");
 require("dotenv").config();
 
 const login = (credencials) => {
@@ -11,9 +11,15 @@ const login = (credencials) => {
 
 	if (user.length == 0) return null;
 
-	const token = jwt.sign({ user }, process.env.TOKEN_SECRET, {
-		expiresIn: "2h",
-	});
+	delete user[0].password;
+
+	const token = jwt.sign(
+		{ user },
+		process.env.TOKEN_SECRET || "somerandomstring",
+		{
+			expiresIn: "2h",
+		}
+	);
 
 	return {
 		user,
