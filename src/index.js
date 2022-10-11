@@ -3,11 +3,13 @@ const authRouter = require("./routes/authRoute");
 const categoryRoute = require("./routes/categoryRoute");
 const productRoute = require("./routes/productRoute");
 const exportRoute = require("./routes/export");
+const mainRouter = require("./routes/mainRoute");
 
 const app = express();
 const port = process.env.PORT || 3000;
 
 app.use(express.json());
+app.use("/api/v1", mainRouter);
 app.use("/api/v1/auth/", authRouter);
 app.use("/api/v1/categories/", categoryRoute);
 app.use("/api/v1/products/", productRoute);

@@ -33,12 +33,12 @@ const findById = (req, res) => {
 };
 
 const saveNewProduct = (req, res) => {
-	if (!helpers.validLengthNameSku(req.body.sku))
+	if (!helpers.validLengthShortName(req.body.sku))
 		return res
 			.status(400)
 			.json({ error: true, message: "too long sku must be 5" });
 
-	if (!helpers.checkShortNameSku("product", req.body.nombre_producto))
+	if (helpers.checkShortName("product", req.body.sku))
 		return res
 			.status(400)
 			.json({ error: true, message: "there is a product with the same name" });
@@ -89,18 +89,8 @@ const updateProduct = (req, res) => {
 
 const exportCsv = (req, res) => {
 	const rs = productService.exportCsv();
-	fs.writeFileSync("export.csv", toCsv(rs));
+	fs.writeFileSync("export.csv", helpers.toCsv(rs));
 	res.download("export.csv");
-};
-
-const toCsv = (data) => {
-	const array = [Object.keys(data[0])].concat(data);
-
-	return array
-		.map((it) => {
-			return Object.values(it).toString();
-		})
-		.join("\n");
 };
 
 module.exports = {

@@ -1,11 +1,11 @@
 const categories = require("../database/dataSources/categories");
 const products = require("../database/dataSources/products");
 
-const validLengthNameSku = (value) => {
+const validLengthShortName = (value) => {
 	return value.length <= 5;
 };
 
-const checkShortNameSku = (source, value) => {
+const checkShortName = (source, value) => {
 	const index =
 		source == "category"
 			? categories.findIndex((elem) => {
@@ -18,7 +18,18 @@ const checkShortNameSku = (source, value) => {
 	return index == -1;
 };
 
+const toCsv = (data) => {
+	const array = [Object.keys(data[0])].concat(data);
+
+	return array
+		.map((it) => {
+			return Object.values(it).toString();
+		})
+		.join("\n");
+};
+
 module.exports = {
-	validLengthNameSku,
-	checkShortNameSku,
+	validLengthShortName,
+	checkShortName,
+	toCsv,
 };

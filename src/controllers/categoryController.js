@@ -32,12 +32,12 @@ const findById = (req, res) => {
 };
 
 const saveNewCategory = (req, res) => {
-	if (!helpers.validLengthNameSku(req.body.nombre_corto))
+	if (!helpers.validLengthShortName(req.body.nombre_corto))
 		return res
 			.status(400)
 			.json({ error: true, message: "too long nombre_corto must be 5" });
 
-	if (!helpers.checkShortNameSku("category", req.body.nombre_corto))
+	if (helpers.checkShortName("category", req.body.nombre_corto))
 		return res
 			.status(400)
 			.json({ error: true, message: "there is a category with the same name" });
