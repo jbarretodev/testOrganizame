@@ -33,6 +33,11 @@ const findById = (req, res) => {
 };
 
 const saveNewProduct = (req, res) => {
+	if (!req.body.categoria)
+		return res
+			.status(400)
+			.json({ error: true, message: "categoria es missing" });
+
 	if (!helpers.validLengthShortName(req.body.sku))
 		return res
 			.status(400)
